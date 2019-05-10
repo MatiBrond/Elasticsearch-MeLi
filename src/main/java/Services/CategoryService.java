@@ -15,7 +15,6 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +31,6 @@ public class CategoryService {
     public CategoryService(RestHighLevelClient restHighLevelClient){
         this.restHighLevelClient = restHighLevelClient;
     }
-
-
 
     public  Category insertCategory(Category category){
 
@@ -70,8 +67,8 @@ public class CategoryService {
         UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE, id)
                 .fetchSource(true);    // Fetch Object after its update
         try {
-            String personJson = objectMapper.writeValueAsString(category);
-            updateRequest.doc(personJson, XContentType.JSON);
+            String categoryJson = objectMapper.writeValueAsString(category);
+            updateRequest.doc(categoryJson, XContentType.JSON);
             UpdateResponse updateResponse = restHighLevelClient.update(updateRequest,RequestOptions.DEFAULT);
             return objectMapper.convertValue(updateResponse.getGetResult().sourceAsMap(), Category.class);
         }catch (JsonProcessingException e){

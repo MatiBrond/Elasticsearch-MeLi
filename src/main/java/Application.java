@@ -56,7 +56,7 @@ public class Application {
         restHighLevelClient = null;
     }
 
-    
+
 
     public static void main(String[] args) throws IOException {
 
@@ -108,6 +108,15 @@ public class Application {
         item.setCategory(category);
         item = itemService.insertItem(item);
         System.out.println("Item inserted --> " + item);
+
+        System.out.println("");
+        System.out.println("");
+
+        System.out.println("Update Item");
+        Item item5 = new Item();
+        item5.setName("Martillo de MercadoLibre");
+        item5 = itemService.updateItemById("MLATHOR12312", item5);
+        System.out.println("Item inserted --> " + item5);
 
         closeConnection();
     }

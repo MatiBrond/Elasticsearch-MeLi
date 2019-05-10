@@ -10,6 +10,8 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -21,12 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import Domain.Site;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 public class SiteService {
 
     private static RestHighLevelClient restHighLevelClient;
-
-
     public SiteService(RestHighLevelClient restHighLevelClient){
         this.restHighLevelClient = restHighLevelClient;
     }
@@ -34,9 +38,6 @@ public class SiteService {
     private static final String INDEX = "sitedata";
     private static final String TYPE = "site";
     private static ObjectMapper objectMapper = new ObjectMapper();
-
-
-
 
     public static Site insertSite(Site site){
         //site.setId(UUID.randomUUID().toString());
@@ -72,8 +73,8 @@ public class SiteService {
         UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE, id)
                 .fetchSource(true);    // Fetch Object after its update
         try {
-            String personJson = objectMapper.writeValueAsString(site);
-            updateRequest.doc(personJson, XContentType.JSON);
+            String siteJson = objectMapper.writeValueAsString(site);
+            updateRequest.doc(siteJson, XContentType.JSON);
             UpdateResponse updateResponse = restHighLevelClient.update(updateRequest,RequestOptions.DEFAULT);
             return objectMapper.convertValue(updateResponse.getGetResult().sourceAsMap(), Site.class);
         }catch (JsonProcessingException e){
@@ -93,6 +94,7 @@ public class SiteService {
             e.getLocalizedMessage();
         }
     }
+
 
 
 

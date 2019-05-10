@@ -12,7 +12,6 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,8 +66,8 @@ public class ItemService {
         UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE, id)
                 .fetchSource(true);    // Fetch Object after its update
         try {
-            String personJson = objectMapper.writeValueAsString(item);
-            updateRequest.doc(personJson, XContentType.JSON);
+            String itemJson = objectMapper.writeValueAsString(item);
+            updateRequest.doc(itemJson, XContentType.JSON);
             UpdateResponse updateResponse = restHighLevelClient.update(updateRequest,RequestOptions.DEFAULT);
             return objectMapper.convertValue(updateResponse.getGetResult().sourceAsMap(), Item.class);
         }catch (JsonProcessingException e){
