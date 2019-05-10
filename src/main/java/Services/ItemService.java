@@ -32,7 +32,6 @@ public class ItemService {
         this.restHighLevelClient = restHighLevelClient;
     }
 
-
     public Item insertItem(Item item){
 
         Map<String, Object> dataMap = new HashMap<String, Object>();

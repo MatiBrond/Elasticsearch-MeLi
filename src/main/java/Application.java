@@ -17,13 +17,11 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import Domain.*;
-import Services.*;
 
 public class Application {
     //The config parameters for the connection
@@ -31,10 +29,8 @@ public class Application {
     private static final int PORT_ONE = 9200;
     private static final int PORT_TWO = 9201;
     private static final String SCHEME = "http";
-
     private static RestHighLevelClient restHighLevelClient;
     private static ObjectMapper objectMapper = new ObjectMapper();
-
     private static final String INDEX = "persondata";
     private static final String TYPE = "person";
 
@@ -114,25 +110,13 @@ public class Application {
             e.getLocalizedMessage();
         }
     }
-/*
-
-    public static CategoryService categoryService;
-    public static ItemService itemService = new ItemService();
-    public static SiteService siteService;
-*/
-
-
 
     public static void main(String[] args) throws IOException {
-
-
-
 
         makeConnection();
         SiteService siteService = new SiteService (restHighLevelClient) ;
         CategoryService categoryService = new CategoryService(restHighLevelClient);
         ItemService itemService = new ItemService(restHighLevelClient);
-
 
         System.out.println("Inserting a new Site MLA");
         Site site = new Site();
@@ -141,6 +125,26 @@ public class Application {
         site = Services.SiteService.insertSite(site);
         System.out.println("Site inserted --> " + site);
 
+        System.out.println("Inserting a new Site MBO");
+        Site site2 = new Site();
+        site2.setName("Bolivia");
+        site2.setId("MBO");
+        site2 = Services.SiteService.insertSite(site2);
+        System.out.println("Site inserted --> " + site2);
+
+        System.out.println("Inserting a new Site MLM");
+        Site site3 = new Site();
+        site3.setName("Mexico");
+        site3.setId("MLM");
+        site3 = Services.SiteService.insertSite(site3);
+        System.out.println("Site inserted --> " + site3);
+
+        System.out.println("Inserting a new Site MLB");
+        Site site4 = new Site();
+        site4.setName("Brasil");
+        site4.setId("MLB");
+        site4 = Services.SiteService.insertSite(site4);
+        System.out.println("Site inserted --> " + site4);
 
         System.out.println("Inserting a new Category");
         Category category = new Category();
@@ -158,23 +162,6 @@ public class Application {
         item = itemService.insertItem(item);
         System.out.println("Item inserted --> " + item);
 
-
-/*
-        System.out.println("Changing name to `Shubham Aggarwal`...");
-        person.setName("Shubham Aggarwal");
-        updatePersonById(person.getPersonId(), person);
-        System.out.println("Person updated  --> " + person);
-
-        System.out.println("Getting Shubham...");
-        Person personFromDB = getPersonById(person.getPersonId());
-        System.out.println("Person from DB  --> " + personFromDB);
-
-        System.out.println("Deleting Shubham...");
-        deletePersonById(personFromDB.getPersonId());
-        System.out.println("Person Deleted");
-*/
         closeConnection();
     }
-
-
 }
